@@ -1,0 +1,417 @@
+/* =========================================================
+   Bodega Piedra Alta — sitio de demostración
+   Paleta: vino tinto y rosados, sobre crema
+   ========================================================= */
+
+:root {
+  --vino: #3B0F1E;        /* fondo oscuro: noche, bodega */
+  --borravino: #6B1E32;   /* títulos sobre claro, logo */
+  --malbec: #8C2B47;      /* botones y carrito */
+  --malbec-hover: #74213A;
+  --rosado: #E7B4BE;      /* acentos sobre oscuro */
+  --rosa: #F5DDE0;        /* fondos de sección */
+  --crema: #FBF4F1;       /* fondo principal claro */
+  --tinta: #2B1419;       /* texto sobre claro */
+  --gris: #7A6266;        /* texto secundario sobre claro */
+  --dorado: #C9A56A;      /* solo detalles: sol, Torrontés */
+  --linea: rgba(107, 30, 50, 0.16);
+  --linea-oscura: rgba(231, 180, 190, 0.2);
+
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radio: 16px;
+  --sombra: 0 18px 40px -18px rgba(59, 15, 30, 0.35);
+  --header: 68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--tinta);
+  background: var(--crema);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.08; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--rosado); outline-offset: 3px; border-radius: 6px; }
+.contenedor { width: min(1180px, 100% - 2.5rem); margin-inline: auto; }
+
+.eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--malbec); }
+.seccion__cabecera { max-width: 40rem; margin-bottom: 3rem; }
+.seccion__titulo { font-size: clamp(2.1rem, 4.6vw, 3.4rem); color: var(--borravino); margin-top: 0.6rem; font-variation-settings: "opsz" 120; }
+.seccion__bajada { margin-top: 1rem; color: var(--gris); font-size: 1.125rem; max-width: 34rem; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  min-height: 50px; padding: 0.8rem 1.6rem; border-radius: 999px; border: 1.5px solid transparent;
+  font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn svg { width: 20px; height: 20px; }
+.btn--principal { background: var(--malbec); color: var(--crema); }
+.btn--principal:hover { background: var(--malbec-hover); }
+.btn--borde { border-color: currentColor; background: transparent; }
+.btn--borde:hover { background: rgba(140, 43, 71, 0.08); }
+.btn--ancho { width: 100%; }
+.btn:active { transform: scale(0.98); }
+
+/* ---------- Header ---------- */
+.header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50; height: var(--header);
+  background: rgba(43, 20, 25, 0.62); color: var(--crema);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--linea-oscura);
+}
+.header__inner { height: 100%; display: flex; align-items: center; gap: 1.5rem; }
+.logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; margin-right: auto; }
+.logo__sello { width: 38px; height: 38px; color: var(--rosado); }
+.logo__texto { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; line-height: 1; display: flex; flex-direction: column; }
+.logo__chico { font-family: var(--sans); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rosado); margin-bottom: 0.25rem; }
+.nav { display: flex; gap: 1.6rem; }
+.nav a { text-decoration: none; font-weight: 600; font-size: 0.95rem; opacity: 0.85; }
+.nav a:hover { opacity: 1; color: var(--rosado); }
+.carrito-btn {
+  position: relative; width: 46px; height: 46px; border-radius: 50%;
+  border: 1.5px solid var(--linea-oscura); background: transparent; color: var(--crema); cursor: pointer;
+  display: grid; place-items: center; transition: border-color 0.2s, background 0.2s;
+}
+.carrito-btn:hover { border-color: var(--rosado); }
+.carrito-btn svg { width: 22px; height: 22px; }
+.carrito-btn__num {
+  position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 6px;
+  border-radius: 999px; background: var(--rosado); color: var(--vino);
+  font-size: 0.75rem; font-weight: 800; display: grid; place-items: center;
+}
+.carrito-btn.salta { animation: salto 0.45s ease; }
+@keyframes salto { 40% { transform: scale(1.18); } }
+
+/* =========================================================
+   RELATO CON SCROLL
+   ========================================================= */
+.relato { position: relative; background: var(--vino); color: var(--crema); }
+.relato__escenario { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.cielo {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--cielo-a, #1C0710), var(--cielo-b, #3B0F1E));
+}
+.estrellas {
+  position: absolute; inset: 0 0 35% 0; opacity: var(--estrellas, 1);
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 32%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 28%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 71% 9%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 83% 24%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 14%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 40%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 36% 46%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 65% 42%, #fff 50%, transparent 51%);
+}
+.sol {
+  position: absolute; left: 62%; top: 0; width: 90px; height: 90px; border-radius: 50%;
+  background: var(--dorado);
+  box-shadow: 0 0 60px 20px rgba(201, 165, 106, 0.35);
+  transform: translateY(var(--sol-y, 80vh)); opacity: var(--sol-o, 0);
+}
+.cerros { position: absolute; left: 0; bottom: 0; width: 100%; height: 72%; }
+.cerro { transform: translateY(var(--cerro-y, 0)); transform-box: fill-box; }
+.cerro--3 { fill: #C98A99; --cerro-y: var(--c3, 55%); }
+.cerro--2 { fill: #A04A62; --cerro-y: var(--c2, 75%); }
+.cerro--1 { fill: #6B1E32; --cerro-y: var(--c1, 95%); }
+.vinedo { fill: #3B0F1E; transform: translateY(var(--c0, 100%)); transform-box: fill-box; }
+.vinedo__fila { fill: none; stroke: #8C2B47; stroke-width: 3; stroke-linecap: round; }
+
+.barricas { position: absolute; left: 0; bottom: 0; width: 100%; height: 75%; opacity: var(--barricas, 0); }
+.barrica__cuerpo { fill: #4A1A26; stroke: rgba(201, 165, 106, 0.5); stroke-width: 3; }
+.barrica__duela { fill: none; stroke: rgba(43, 20, 25, 0.55); stroke-width: 2; }
+.barrica__aro { fill: none; stroke: rgba(201, 165, 106, 0.7); stroke-width: 6; }
+.barrica__tapa { fill: #2B1419; stroke: rgba(201, 165, 106, 0.5); stroke-width: 3; }
+
+.relato__botella {
+  position: absolute; right: 14%; bottom: 7vh; height: 74vh; height: 74svh; aspect-ratio: 120 / 400;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.45));
+  transform: translateY(var(--botella-y, 0));
+}
+.relato__botella svg { width: 100%; height: 100%; }
+
+.relato__textos { position: relative; margin-top: -100vh; margin-top: -100svh; z-index: 2; }
+.escena { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; width: min(1180px, 100% - 2.5rem); margin-inline: auto; padding-block: 6rem; }
+.escena__caja {
+  max-width: 29rem; padding: 2rem 2.2rem; border-radius: 22px;
+  background: rgba(43, 20, 25, 0.58); border: 1px solid var(--linea-oscura);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.escena__num, .escena__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rosado); margin-bottom: 0.9rem; }
+.escena__titulo { font-size: clamp(2rem, 4vw, 3rem); font-variation-settings: "opsz" 144; }
+.escena__texto { margin-top: 1rem; color: rgba(251, 244, 241, 0.86); font-size: 1.1rem; }
+.escena .btn { margin-top: 1.6rem; }
+
+.escena--hero .escena__caja { background: none; border: 0; padding: 0; -webkit-backdrop-filter: none; backdrop-filter: none; max-width: 36rem; }
+.escena--hero .escena__titulo { font-size: clamp(3.4rem, 9vw, 7rem); font-weight: 500; letter-spacing: -0.03em; }
+.escena--hero .escena__texto { font-size: clamp(1.1rem, 2vw, 1.35rem); max-width: 26rem; }
+.escena__scroll { margin-top: 2.5rem; font-size: 0.9rem; font-weight: 600; color: var(--rosado); }
+.escena__scroll span { display: inline-block; animation: baja 1.8s ease-in-out infinite; }
+@keyframes baja { 50% { transform: translateY(6px); } }
+
+/* =========================================================
+   BOTELLA (SVG generado en JS)
+   ========================================================= */
+.botella__vidrio { fill: #160B0E; }
+.botella__brillo { fill: none; stroke: rgba(255, 255, 255, 0.16); stroke-width: 3; stroke-linecap: round; }
+.botella__etiqueta { fill: var(--crema); }
+.botella__marca { font-family: var(--serif); font-size: 8.6px; font-weight: 700; fill: var(--borravino); letter-spacing: 0.04em; }
+.botella__varietal { font-family: var(--serif); font-size: 14px; font-weight: 600; fill: var(--tinta); }
+.botella__anio { font-family: var(--sans); font-size: 6.2px; font-weight: 700; letter-spacing: 0.08em; fill: var(--gris); }
+.botella__liquido, .botella__capsula, .botella__franja { transition: fill 0.5s ease, y 0.1s linear; }
+
+/* =========================================================
+   VINOS
+   ========================================================= */
+.vinos { padding: 7rem 0 6rem; background: var(--crema); overflow: clip; }
+.vinos__grid { display: grid; grid-template-columns: 5fr 7fr; gap: 3rem; align-items: start; }
+.vinos__escenario {
+  position: sticky; top: calc(var(--header) + 6vh); height: min(70vh, 640px);
+  display: grid; place-items: center;
+}
+.vinos__disco {
+  position: absolute; width: min(28vw, 400px); aspect-ratio: 1; border-radius: 50%;
+  background: var(--tono, var(--rosa)); opacity: 0.55; transition: background 0.6s ease;
+}
+.vinos__botella { position: relative; height: min(62vh, 560px); aspect-ratio: 120 / 400; filter: drop-shadow(0 26px 30px rgba(59, 15, 30, 0.3)); }
+.vinos__botella svg { width: 100%; height: 100%; }
+
+.vino { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; padding: 2rem 0; border-bottom: 1px solid var(--linea); }
+.vino:last-child { border-bottom: 0; }
+.vino__mini { display: none; }
+.vino__tipo { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-texto, var(--malbec)); }
+.vino__nombre { font-size: clamp(2.2rem, 4.4vw, 3.2rem); color: var(--borravino); margin-top: 0.5rem; font-variation-settings: "opsz" 144; }
+.vino__desc { margin-top: 1rem; color: var(--gris); max-width: 33rem; font-size: 1.1rem; }
+.notas { margin: 1.6rem 0 0; display: grid; gap: 0.1rem; max-width: 33rem; }
+.notas div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; padding: 0.7rem 0; border-top: 1px solid var(--linea); }
+.notas dt { font-weight: 700; font-size: 0.85rem; color: var(--borravino); }
+.notas dd { margin: 0; font-size: 0.98rem; }
+.ficha { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; padding: 0; list-style: none; }
+.ficha li { font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--rosa); color: var(--borravino); }
+.compra { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.2rem; margin-top: 1.8rem; }
+.compra__precio { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.compra__precio small { display: block; font-family: var(--sans); font-size: 0.78rem; font-weight: 600; color: var(--gris); }
+
+.cantidad { display: inline-flex; align-items: center; border: 1.5px solid var(--linea); border-radius: 999px; height: 50px; }
+.cantidad button { width: 44px; height: 100%; border: 0; background: none; cursor: pointer; font-size: 1.3rem; color: var(--borravino); border-radius: 999px; }
+.cantidad button:hover { background: var(--rosa); }
+.cantidad output { min-width: 2rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* =========================================================
+   MARIDAJE
+   ========================================================= */
+.maridaje { padding: 7rem 0; background: var(--rosa); }
+.maridaje__app { display: grid; grid-template-columns: 7fr 5fr; gap: 2.5rem; align-items: start; }
+.paso { border: 0; padding: 0; margin: 0 0 2rem; }
+.paso legend { display: flex; align-items: center; gap: 0.7rem; font-weight: 700; font-size: 1.05rem; margin-bottom: 1rem; color: var(--borravino); }
+.paso legend span { width: 28px; height: 28px; border-radius: 50%; background: var(--borravino); color: var(--crema); display: grid; place-items: center; font-size: 0.85rem; }
+.opciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+.opciones--chicas { grid-template-columns: repeat(3, 1fr); }
+.opcion {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; text-align: left;
+  padding: 1rem; border-radius: 14px; border: 1.5px solid transparent; background: var(--crema);
+  cursor: pointer; transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+.opcion:hover { border-color: var(--rosado); transform: translateY(-2px); }
+.opcion svg { width: 30px; height: 30px; color: var(--malbec); }
+.opcion strong { font-size: 0.98rem; }
+.opcion small { font-size: 0.8rem; color: var(--gris); line-height: 1.35; }
+.opcion[aria-pressed="true"] { border-color: var(--malbec); background: #fff; box-shadow: var(--sombra); }
+.opciones--chicas .opcion { flex-direction: row; align-items: center; padding: 0.85rem 1rem; }
+.opciones--chicas .opcion svg { width: 24px; height: 24px; flex: none; }
+
+.maridaje__resultado {
+  position: sticky; top: calc(var(--header) + 2rem);
+  min-height: 420px; border-radius: 22px; background: var(--crema); box-shadow: var(--sombra); overflow: hidden;
+}
+.resultado__vacio { height: 420px; display: grid; place-content: center; justify-items: center; gap: 1rem; text-align: center; padding: 2rem; color: var(--gris); }
+.resultado__vacio svg { width: 60px; height: 60px; color: var(--rosado); }
+.resultado { display: grid; grid-template-columns: 110px 1fr; gap: 1.4rem; padding: 2rem; animation: aparece 0.45s ease; }
+@keyframes aparece { from { opacity: 0; transform: translateY(10px); } }
+.resultado__botella { height: 330px; }
+.resultado__botella svg { height: 100%; width: auto; }
+.resultado__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--malbec); }
+.resultado__nombre { font-size: 1.9rem; color: var(--borravino); margin-top: 0.4rem; }
+.resultado__porque { margin-top: 0.9rem; font-size: 0.98rem; }
+.resultado__tip { margin-top: 0.9rem; padding: 0.8rem 1rem; border-radius: 12px; background: var(--rosa); font-size: 0.88rem; color: var(--borravino); }
+.resultado__compra { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.3rem; flex-wrap: wrap; }
+.resultado__precio { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* =========================================================
+   VISITAS
+   ========================================================= */
+.visitas { padding: 7rem 0; background: var(--vino); color: var(--crema); }
+.visitas .eyebrow { color: var(--rosado); }
+.visitas .seccion__titulo { color: var(--crema); }
+.visitas .seccion__bajada { color: rgba(251, 244, 241, 0.78); }
+.visitas__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+.experiencias { display: grid; gap: 1rem; margin-top: 2.2rem; }
+.experiencia input { position: absolute; opacity: 0; pointer-events: none; }
+.experiencia__caja {
+  display: grid; gap: 0.25rem; padding: 1.3rem 1.5rem; border-radius: 16px; cursor: pointer;
+  border: 1.5px solid var(--linea-oscura); transition: border-color 0.2s, background 0.2s;
+}
+.experiencia:hover .experiencia__caja { border-color: var(--rosado); }
+.experiencia input:checked + .experiencia__caja { border-color: var(--rosado); background: rgba(231, 180, 190, 0.1); }
+.experiencia input:focus-visible + .experiencia__caja { outline: 3px solid var(--rosado); outline-offset: 3px; }
+.experiencia__nombre { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; }
+.experiencia__desc { color: rgba(251, 244, 241, 0.75); font-size: 0.95rem; }
+.experiencia__precio { margin-top: 0.4rem; font-weight: 700; color: var(--rosado); font-variant-numeric: tabular-nums; }
+.experiencia__precio small { font-weight: 500; color: rgba(251, 244, 241, 0.7); }
+
+.reserva { background: var(--crema); color: var(--tinta); border-radius: 22px; padding: 2rem; display: grid; gap: 1.1rem; }
+.reserva h3 { font-size: 1.6rem; color: var(--borravino); }
+.campo { display: grid; gap: 0.4rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+.campo > span, .campo legend { font-size: 0.88rem; font-weight: 700; color: var(--borravino); padding: 0; margin-bottom: 0.4rem; }
+.campo input, .campo select {
+  width: 100%; min-height: 48px; padding: 0.6rem 0.9rem; border-radius: 12px;
+  border: 1.5px solid var(--linea); background: #fff;
+}
+.campo input:focus, .campo select:focus { border-color: var(--malbec); outline: none; }
+.campo-fila { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0.9rem; }
+.reserva__total { font-size: 1rem; }
+.reserva__total strong { font-family: var(--serif); font-size: 1.3rem; color: var(--borravino); }
+.reserva__nota { font-size: 0.85rem; color: var(--gris); text-align: center; }
+.reserva__error, .carrito__error { color: #A3213F; font-weight: 600; font-size: 0.9rem; }
+
+/* ---------- Footer ---------- */
+.footer { background: var(--tinta); color: rgba(251, 244, 241, 0.8); padding: 3rem 0; font-size: 0.9rem; }
+.footer__inner { display: grid; gap: 1rem; }
+.footer__marca { display: flex; align-items: center; gap: 0.9rem; }
+.footer__marca svg { width: 44px; height: 44px; color: var(--rosado); }
+.footer__marca strong { display: block; font-family: var(--serif); font-size: 1.2rem; color: var(--crema); }
+.footer__legal { font-weight: 600; color: var(--rosado); }
+.footer__demo a { color: var(--rosado); }
+
+/* =========================================================
+   CARRITO
+   ========================================================= */
+.carrito-fondo { position: fixed; inset: 0; z-index: 60; background: rgba(43, 20, 25, 0.5); opacity: 0; transition: opacity 0.3s; }
+.carrito-fondo.visible { opacity: 1; }
+.carrito {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100%);
+  background: var(--crema); display: flex; flex-direction: column;
+  transform: translateX(105%); transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+  box-shadow: -20px 0 50px rgba(43, 20, 25, 0.25);
+}
+.carrito.abierto { transform: none; }
+.carrito__cabecera { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--linea); }
+.carrito__cabecera h2 { font-size: 1.5rem; color: var(--borravino); }
+.carrito__cerrar { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--linea); background: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--borravino); }
+.carrito__cuerpo { flex: 1; overflow-y: auto; padding: 1rem 1.5rem 1.5rem; }
+.carrito__items { list-style: none; margin: 0; padding: 0; }
+.item { display: grid; grid-template-columns: 44px 1fr auto; gap: 0.9rem; align-items: center; padding: 0.9rem 0; border-bottom: 1px solid var(--linea); }
+.item__botella { height: 76px; }
+.item__botella svg { height: 100%; width: auto; }
+.item__nombre { font-weight: 700; line-height: 1.25; }
+.item__precio { font-size: 0.88rem; color: var(--gris); font-variant-numeric: tabular-nums; }
+.item .cantidad { height: 40px; }
+.item .cantidad button { width: 36px; }
+.carrito__vacio { text-align: center; padding: 3rem 1rem; display: grid; gap: 1.2rem; justify-items: center; color: var(--gris); }
+.carrito__vacio .btn { color: var(--malbec); }
+.carrito__form { display: grid; gap: 1rem; margin-top: 1.4rem; }
+.segmentado { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.segmentado label { position: relative; }
+.segmentado input { position: absolute; opacity: 0; }
+.segmentado span {
+  display: grid; place-items: center; min-height: 46px; padding: 0.4rem; text-align: center; line-height: 1.2;
+  border-radius: 12px; border: 1.5px solid var(--linea); font-weight: 600; font-size: 0.92rem; cursor: pointer; background: #fff;
+}
+.segmentado input:checked + span { border-color: var(--malbec); color: var(--malbec); background: var(--rosa); }
+.segmentado input:focus-visible + span { outline: 3px solid var(--rosado); outline-offset: 2px; }
+.carrito__pie { padding: 1.2rem 1.5rem 1.5rem; border-top: 1px solid var(--linea); display: grid; gap: 0.7rem; background: #fff; }
+.carrito__total { display: flex; justify-content: space-between; align-items: baseline; }
+.carrito__total strong { font-family: var(--serif); font-size: 1.8rem; color: var(--borravino); font-variant-numeric: tabular-nums; }
+.carrito__envio { font-size: 0.85rem; color: var(--gris); }
+
+/* Pastilla flotante con el pedido */
+.pedido-flotante {
+  position: fixed; left: 50%; bottom: 1.2rem; z-index: 40; transform: translate(-50%, 150%);
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.75rem 0.9rem 0.75rem 1.3rem;
+  border-radius: 999px; border: 0; background: var(--malbec); color: var(--crema); cursor: pointer;
+  font-weight: 700; box-shadow: 0 14px 30px -10px rgba(59, 15, 30, 0.6); transition: transform 0.35s ease;
+  white-space: nowrap;
+}
+.pedido-flotante.visible { transform: translate(-50%, 0); }
+.pedido-flotante span { padding: 0.35rem 0.8rem; border-radius: 999px; background: rgba(251, 244, 241, 0.16); font-variant-numeric: tabular-nums; }
+
+.aviso {
+  position: fixed; left: 50%; top: calc(var(--header) + 1rem); z-index: 80; transform: translate(-50%, -20px);
+  padding: 0.7rem 1.2rem; border-radius: 999px; background: var(--tinta); color: var(--crema);
+  font-weight: 600; font-size: 0.92rem; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+  max-width: calc(100% - 2rem); text-align: center;
+}
+.aviso.visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Aviso de edad ---------- */
+.edad { border: 0; padding: 0; background: transparent; max-width: min(460px, calc(100% - 2rem)); }
+.edad::backdrop { background: rgba(28, 7, 16, 0.92); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.edad__caja { background: var(--crema); border-radius: 24px; padding: 2.4rem 2rem; text-align: center; display: grid; gap: 1rem; justify-items: center; }
+.edad__sello { width: 64px; height: 64px; color: var(--borravino); }
+.edad h2 { font-size: 1.9rem; color: var(--borravino); }
+.edad p { color: var(--gris); }
+.edad__botones { display: grid; gap: 0.7rem; width: 100%; margin-top: 0.5rem; }
+.edad__botones .btn--borde { color: var(--borravino); }
+.edad__no { font-weight: 700; color: var(--malbec) !important; }
+
+/* =========================================================
+   CELULAR Y TABLET
+   ========================================================= */
+@media (max-width: 900px) {
+  .nav { display: none; }
+  .vinos__grid { grid-template-columns: 1fr; }
+  .vinos__escenario { display: none; }
+  .vino { min-height: 0; padding: 2.5rem 0; }
+  .vino__cabecera { display: grid; grid-template-columns: 70px 1fr; gap: 1.2rem; align-items: center; }
+  .vino__mini { display: block; height: 220px; }
+  .vino__mini svg { height: 100%; width: auto; }
+  .maridaje__app { grid-template-columns: 1fr; }
+  .maridaje__resultado { position: static; min-height: 0; }
+  .resultado__vacio { height: auto; padding: 2.5rem 1.5rem; }
+  .visitas__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+@media (max-width: 640px) {
+  :root { --header: 62px; }
+  body { font-size: 1rem; }
+  .logo__texto { font-size: 1.15rem; }
+  .relato__botella { right: 50%; transform: translate(50%, var(--botella-y, 0)); bottom: 4svh; height: 52svh; }
+  .escena { align-items: flex-start; padding-top: calc(var(--header) + 3svh); padding-bottom: 50svh; }
+  .escena--hero { align-items: flex-start; }
+  .escena__caja { padding: 1.4rem 1.5rem; }
+  .escena--hero .escena__caja { padding: 0; }
+  .escena--hero .escena__titulo { font-size: 3.4rem; }
+  .sol { left: 70%; width: 64px; height: 64px; }
+  .cerros, .barricas { height: 62%; }
+  .opciones { grid-template-columns: 1fr 1fr; }
+  .opciones--chicas { grid-template-columns: 1fr; }
+  .resultado { grid-template-columns: 76px 1fr; padding: 1.5rem; gap: 1rem; }
+  .resultado__botella { height: 240px; }
+  .resultado__nombre { font-size: 1.6rem; }
+  .compra { gap: 0.9rem; }
+  .compra .btn { flex: 1 1 100%; }
+  .campo-fila { grid-template-columns: 1fr 1fr; }
+  .seccion__cabecera { margin-bottom: 2rem; }
+  .vinos, .maridaje, .visitas { padding: 4.5rem 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

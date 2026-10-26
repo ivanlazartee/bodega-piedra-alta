@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bodega Piedra Alta · Vinos de altura de Cafayate</title>
+  <meta name="description" content="Vinos de altura de los Valles Calchaquíes, a 1.750 metros. Conocé la bodega, encontrá el vino para tu comida y pedí por WhatsApp.">
+  <meta name="theme-color" content="#3B0F1E">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bodega Piedra Alta · Vinos de altura">
+  <meta property="og:description" content="Torrontés, Rosado, Malbec y Tannat de Cafayate, a 1.750 metros. Encontrá tu vino y pedilo por WhatsApp.">
+  <meta property="og:image" content="https://bodega-piedra-alta.vercel.app/img/og.png">
+  <meta property="og:locale" content="es_AR">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Aviso de edad (obligatorio en sitios de bebidas alcohólicas) -->
+  <dialog class="edad" id="edad" aria-labelledby="edad-titulo">
+    <div class="edad__caja">
+      <svg class="edad__sello" viewBox="0 0 64 64" aria-hidden="true"><use href="#sello"/></svg>
+      <h2 id="edad-titulo">¿Tenés 18 años o más?</h2>
+      <p>Para entrar al sitio de Piedra Alta tenés que ser mayor de edad.</p>
+      <div class="edad__botones">
+        <button class="btn btn--principal" id="edad-si" type="button">Sí, tengo 18 o más</button>
+        <button class="btn btn--borde" id="edad-no" type="button">No</button>
+      </div>
+      <p class="edad__no" id="edad-mensaje" hidden>Te esperamos cuando cumplas 18. 🍇</p>
+    </div>
+  </dialog>
+
+  <!-- Símbolos reutilizables -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sello" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 42 L25 22 L32 32 L40 18 L52 42 Z" fill="currentColor"/>
+      <circle cx="44" cy="15" r="3" fill="#C9A56A"/>
+    </symbol>
+    <symbol id="i-carrito" viewBox="0 0 24 24">
+      <path d="M4 5h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h7.6a1.5 1.5 0 0 0 1.5-1.1L20.5 9H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3 1 2.5c.1.2 1.7 2.6 4.1 3.6 1.5.7 2.1.7 2.9.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/>
+    </symbol>
+  </svg>
+
+  <header class="header" id="header">
+    <div class="contenedor header__inner">
+      <a href="#inicio" class="logo" aria-label="Bodega Piedra Alta, inicio">
+        <svg class="logo__sello" viewBox="0 0 64 64" aria-hidden="true"><use href="#sello"/></svg>
+        <span class="logo__texto"><span class="logo__chico">Bodega</span>Piedra Alta</span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#historia">Historia</a>
+        <a href="#vinos">Vinos</a>
+        <a href="#maridaje">Maridaje</a>
+        <a href="#visitas">Visitas</a>
+      </nav>
+      <button class="carrito-btn" id="abrir-carrito" type="button" aria-label="Abrir carrito, vacío">
+        <svg aria-hidden="true"><use href="#i-carrito"/></svg>
+        <span class="carrito-btn__num" id="carrito-num" hidden>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ============ RELATO: la botella acompaña el recorrido ============ -->
+    <section class="relato" id="historia" aria-label="La historia de Piedra Alta">
+      <div class="relato__escenario" aria-hidden="true">
+        <div class="cielo" id="cielo"></div>
+        <div class="estrellas" id="estrellas"></div>
+        <div class="sol" id="sol"></div>
+
+        <svg class="cerros" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+          <path class="cerro cerro--3" d="M0 380 L120 300 L230 340 L380 230 L520 310 L660 250 L820 330 L960 240 L1110 320 L1260 260 L1440 330 V600 H0 Z"/>
+          <path class="cerro cerro--2" d="M0 450 L150 350 L300 420 L470 300 L640 410 L780 340 L930 430 L1100 320 L1270 410 L1440 360 V600 H0 Z"/>
+          <path class="cerro cerro--1" d="M0 520 L200 430 L380 500 L560 420 L760 510 L980 440 L1180 515 L1440 450 V600 H0 Z"/>
+          <g class="vinedo" id="vinedo">
+            <path d="M0 560 Q720 520 1440 560 V600 H0 Z"/>
+            <path class="vinedo__fila" d="M40 590 L620 540 M200 600 L700 545 M380 605 L760 548 M560 610 L820 550 M760 612 L880 552 M980 610 L940 552 M1180 606 L1000 549 M1360 600 L1060 546"/>
+          </g>
+        </svg>
+
+        <svg class="barricas" id="barricas" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+          <g class="barrica" transform="translate(40 450)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g><g class="barrica" transform="translate(280 450)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g><g class="barrica" transform="translate(160 312)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g><g class="barrica" transform="translate(1170 450)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g><g class="barrica" transform="translate(930 450)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g><g class="barrica" transform="translate(1050 312)"><rect class="barrica__cuerpo" x="0" y="0" width="230" height="140" rx="63.0" ry="70.0"/><path class="barrica__duela" d="M10 46.2 Q115.0 35.0 220 46.2 M10 93.80000000000001 Q115.0 105.0 220 93.80000000000001"/><path class="barrica__aro" d="M46.0 4 Q39.1 70.0 46.0 136 M184.0 4 Q190.89999999999998 70.0 184.0 136"/><ellipse class="barrica__tapa" cx="115.0" cy="70.0" rx="16.1" ry="16.8"/></g>
+        </svg>
+
+        <div class="relato__botella" id="relato-botella"></div>
+      </div>
+
+      <div class="relato__textos">
+        <article class="escena escena--hero">
+          <div class="escena__caja">
+            <p class="escena__eyebrow">Cafayate · Valles Calchaquíes</p>
+            <h1 class="escena__titulo">Vinos de altura.</h1>
+            <p class="escena__texto">A 1.750 metros sobre el nivel del mar, donde el sol pega fuerte y las noches son frías.</p>
+            <p class="escena__scroll">Bajá despacio <span aria-hidden="true">↓</span></p>
+          </div>
+        </article>
+        <article class="escena">
+          <div class="escena__caja">
+            <p class="escena__num">01 · El valle</p>
+            <h2 class="escena__titulo">Entre cerros de piedra roja.</h2>
+            <p class="escena__texto">De día, más de 30 °C. De noche, menos de 12 °C. Esa diferencia le da a la uva color, aroma y una acidez que no se consigue en el llano.</p>
+          </div>
+        </article>
+        <article class="escena">
+          <div class="escena__caja">
+            <p class="escena__num">02 · La cosecha</p>
+            <h2 class="escena__titulo">En marzo, a mano.</h2>
+            <p class="escena__texto">Cortamos racimo por racimo a la madrugada, antes de que caliente el sol, y en menos de una hora ya están en la bodega.</p>
+          </div>
+        </article>
+        <article class="escena">
+          <div class="escena__caja">
+            <p class="escena__num">03 · La guarda</p>
+            <h2 class="escena__titulo">El tiempo hace el resto.</h2>
+            <p class="escena__texto">El Malbec descansa 12 meses en barricas de roble francés; el Tannat, 18. Recién ahí se embotella.</p>
+            <a class="btn btn--principal" href="#vinos">Conocé los vinos</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ VINOS ============ -->
+    <section class="vinos" id="vinos">
+      <div class="contenedor">
+        <header class="seccion__cabecera">
+          <p class="eyebrow">Nuestros vinos</p>
+          <h2 class="seccion__titulo">Cuatro vinos, un mismo valle.</h2>
+          <p class="seccion__bajada">Elegí los que quieras y te los mandamos o los retirás en la bodega.</p>
+        </header>
+
+        <div class="vinos__grid">
+          <div class="vinos__escenario" aria-hidden="true">
+            <div class="vinos__disco"></div>
+            <div class="vinos__botella" id="vinos-botella"></div>
+          </div>
+          <div class="vinos__lista" id="vinos-lista"><!-- se completa con JS --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MARIDAJE ============ -->
+    <section class="maridaje" id="maridaje">
+      <div class="contenedor">
+        <header class="seccion__cabecera">
+          <p class="eyebrow">Maridaje</p>
+          <h2 class="seccion__titulo">¿Qué vas a comer?</h2>
+          <p class="seccion__bajada">Elegí el plato y la ocasión, y te decimos qué vino abrir.</p>
+        </header>
+
+        <div class="maridaje__app">
+          <div class="maridaje__pasos">
+            <fieldset class="paso">
+              <legend><span>1</span> El plato</legend>
+              <div class="opciones" id="opciones-plato"></div>
+            </fieldset>
+            <fieldset class="paso">
+              <legend><span>2</span> La ocasión</legend>
+              <div class="opciones opciones--chicas" id="opciones-ocasion"></div>
+            </fieldset>
+          </div>
+
+          <div class="maridaje__resultado" id="maridaje-resultado" aria-live="polite">
+            <div class="resultado__vacio">
+              <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#sello"/></svg>
+              <p>Elegí un plato y una ocasión para ver la recomendación.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VISITAS ============ -->
+    <section class="visitas" id="visitas">
+      <div class="contenedor visitas__grid">
+        <div>
+          <p class="eyebrow">Visitas</p>
+          <h2 class="seccion__titulo">Vení a probarlos acá.</h2>
+          <p class="seccion__bajada">Recorrido por los viñedos y la sala de barricas, y degustación frente a los cerros. De martes a domingo, de 10 a 18 h.</p>
+
+          <div class="experiencias">
+            <label class="experiencia">
+              <input type="radio" name="experiencia" value="Degustación Clásica" data-precio="15000" checked>
+              <span class="experiencia__caja">
+                <span class="experiencia__nombre">Degustación Clásica</span>
+                <span class="experiencia__desc">1 hora · 3 vinos · recorrido por la bodega</span>
+                <span class="experiencia__precio">$15.000 <small>por persona</small></span>
+              </span>
+            </label>
+            <label class="experiencia">
+              <input type="radio" name="experiencia" value="Degustación Reserva" data-precio="28000">
+              <span class="experiencia__caja">
+                <span class="experiencia__nombre">Degustación Reserva</span>
+                <span class="experiencia__desc">2 horas · 4 vinos · tabla de quesos y fiambres de la zona</span>
+                <span class="experiencia__precio">$28.000 <small>por persona</small></span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <form class="reserva" id="form-reserva" novalidate>
+          <h3>Reservá tu visita</h3>
+          <label class="campo">
+            <span>Tu nombre</span>
+            <input type="text" id="reserva-nombre" placeholder="Alejandro" autocomplete="given-name" required>
+          </label>
+          <div class="campo-fila">
+            <label class="campo">
+              <span>Fecha</span>
+              <input type="date" id="reserva-fecha" required>
+            </label>
+            <label class="campo">
+              <span>Personas</span>
+              <select id="reserva-personas">
+                <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
+              </select>
+            </label>
+          </div>
+          <p class="reserva__total">Total estimado: <strong id="reserva-total">$30.000</strong></p>
+          <p class="reserva__error" id="reserva-error" hidden></p>
+          <button class="btn btn--principal btn--ancho" type="submit">
+            <svg aria-hidden="true"><use href="#i-wa"/></svg> Reservar por WhatsApp
+          </button>
+          <p class="reserva__nota">Te confirmamos el horario por WhatsApp. No se cobra nada hasta confirmar.</p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor footer__inner">
+      <div class="footer__marca">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#sello"/></svg>
+        <div>
+          <strong>Bodega Piedra Alta</strong>
+          <span>Ruta 40, km 4.320 · Cafayate, Salta</span>
+        </div>
+      </div>
+      <p class="footer__legal">Beber con moderación. Prohibida la venta de bebidas alcohólicas a menores de 18 años.</p>
+      <p class="footer__demo">Sitio de demostración: Piedra Alta es una marca ficticia. Diseño y desarrollo: <a href="https://nortedigitaldev.vercel.app" target="_blank" rel="noopener">NorteDigitalDev</a></p>
+    </div>
+  </footer>
+
+  <!-- ============ CARRITO ============ -->
+  <div class="carrito-fondo" id="carrito-fondo" hidden></div>
+  <aside class="carrito" id="carrito" aria-labelledby="carrito-titulo" aria-hidden="true" inert>
+    <div class="carrito__cabecera">
+      <h2 id="carrito-titulo">Tu pedido</h2>
+      <button class="carrito__cerrar" id="cerrar-carrito" type="button" aria-label="Cerrar carrito">×</button>
+    </div>
+
+    <div class="carrito__cuerpo">
+      <ul class="carrito__items" id="carrito-items"></ul>
+      <div class="carrito__vacio" id="carrito-vacio">
+        <p>Todavía no elegiste ningún vino.</p>
+        <a class="btn btn--borde" href="#vinos" id="carrito-ver-vinos">Ver los vinos</a>
+      </div>
+
+      <form class="carrito__form" id="carrito-form" novalidate hidden>
+        <label class="campo">
+          <span>Tu nombre</span>
+          <input type="text" id="pedido-nombre" placeholder="Alejandro" autocomplete="given-name" required>
+        </label>
+        <fieldset class="campo">
+          <legend>Entrega</legend>
+          <div class="segmentado">
+            <label><input type="radio" name="entrega" value="envio" checked><span>Envío</span></label>
+            <label><input type="radio" name="entrega" value="retiro"><span>Retiro en la bodega</span></label>
+          </div>
+        </fieldset>
+        <label class="campo" id="campo-direccion">
+          <span>Dirección de entrega</span>
+          <input type="text" id="pedido-direccion" placeholder="San Martín 450, Cafayate" autocomplete="street-address">
+        </label>
+        <fieldset class="campo">
+          <legend>Forma de pago</legend>
+          <div class="segmentado">
+            <label><input type="radio" name="pago" value="Transferencia" checked><span>Transferencia</span></label>
+            <label><input type="radio" name="pago" value="Efectivo"><span>Efectivo</span></label>
+          </div>
+        </fieldset>
+        <p class="carrito__error" id="pedido-error" hidden></p>
+      </form>
+    </div>
+
+    <div class="carrito__pie" id="carrito-pie" hidden>
+      <p class="carrito__total"><span>Total</span><strong id="carrito-total">$0</strong></p>
+      <p class="carrito__envio" id="carrito-envio">El envío se coordina por WhatsApp.</p>
+      <button class="btn btn--principal btn--ancho" type="submit" form="carrito-form">
+        <svg aria-hidden="true"><use href="#i-wa"/></svg> Enviar pedido por WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
