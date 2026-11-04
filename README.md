@@ -19,3 +19,5 @@ Todo con HTML, CSS y JavaScript, sin librerías. Las ilustraciones (botella, cer
 - **Recomendaciones de maridaje:** `PLATOS` en `js/app.js`.
 - **Número de WhatsApp:** `WHATSAPP` en `js/app.js`.
 - **Colores:** variables al principio de `css/styles.css`.
+
+Publicado en: https://bodegapiedraalta.vercel.app
